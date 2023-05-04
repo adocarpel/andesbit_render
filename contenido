@@ -1,0 +1,60 @@
+Envío de códigos ID:8uf98us93
+
+TEMA: Publicación de página con posible base de datos en render.com
+
+1.- Cuenta en gihub.com
+
+2.- Instalar en computadora nodejs y npm, luego instalar n para establecer la última versión de node
+
+4.- Crear un directorio para el proyecto y entrar al directorio
+
+5.- Isntrucción en la terminal: npm i express dotenv ejs
+
+6.- Hacer el archivo index.js:
+
+    //CÓDIGO MÍNIMO PARA POSIBLES POST, PLANTILLAS EJS Y ARCHIVO DE CONTANTES DOTENV:
+
+    const express = require('express')
+    const ejs = require('ejs')
+    const path = require('path')
+    const bodyParser = require('body-parser')
+    const port = process.env.PORT || 8000
+    const app = express()
+    require('dotenv').config()
+
+    //settings
+    app.use(express.static(__dirname + "/public"));  //PARA CSS
+    app.use(bodyParser.urlencoded({extended:false})) //NECESARIOOOO
+    app.use(bodyParser.json());    
+
+    app.set('views',path.join(__dirname, 'views'))
+    app.set('view engine','ejs')
+
+    //routes
+    app.get('/',(req,res)=>res.render('main',{title:'Título'}))
+
+    //starting server
+    app.listen(port, () => {  
+        console.log(`Servidor en la url http://127.0.0.1:${port}/`)
+    })
+
+7.- Crear un directorio views y hacer el archivo main.ejs con el siguiente contenido:
+
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>title</title>
+        <link rel="stylesheet" href="main.css">
+        <!--script src="script.js"></script-->
+      </head>
+      <body>
+        <H2><%=title %></H2>
+        <!-- page content -->
+      </body>
+    </html>
+
+7.- Ejecutar con: node index
+
+8.- Hacer ctrl + click en http://127.0.0.1:8000/ o escribirlo en la barra de url del navegador
+
