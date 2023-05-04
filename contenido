@@ -60,19 +60,42 @@ TEMA: Publicación de página con posible base de datos en render.com
 
 .- Ir a github y crear un nuevo repositorio
 .- En local si no está instalado git, instalar
+
+en otra terminal:
 git config --global user.email "you@example.com"
   git config --global user.name "Your Name"
+
+https://docs.github.com/es/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+https://docs.github.com/es/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+
+
+
+
 Importante hacer el archivo .gitignore para que no se suba todo el node modules
 Colocar en el arcivo:
 node_modules/
 
 
-git commit -m "first commit"
+
+
+
 git init
 git add .
 git commit -m "first commit"
 git branch -M main
-git remote add origin git@github.com:adocarpel/andesbit_render.git
+git remote add origin git@github.com:xxxxxtuusuario/xxxxxtuproyecto.git
 git push -u origin main
 
 
+Ir a render-com -> dashboard -> add new -> web service -> Si pide conectar al servicio de git, agregar ese servicio, si ya está agregado, connect repository donde dice public git repositori colocar la dirección url de tu repositorio
+ej https://github.com/xxxxxtuusuario/xxxxxtuproyecto.git
+
+colocar los datos que piden como el
+Nombre del proyecto
+Branch: main
+Runtime node
+Build command npm install
+Start command node index
