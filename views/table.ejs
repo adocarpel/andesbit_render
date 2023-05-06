@@ -1,0 +1,13 @@
+<h1>users</h1>
+<!--p>name:<=name %></p>
+<p>age:<=age %></p-->
+-USUARIOS:<br><br>
+
+<% data.forEach(function(sub_dato) { %>
+    <div>
+        <%= sub_dato.name %> 
+        .-<a href="/del_sub_dato/<%= sub_dato.id %>/ncliente/<%= sub_dato.id_primaria %>"> Eliminar </a> 
+        .-<a href="/edit_subdato/<%= sub_dato.id %>"> Editar </a> 
+    </div>
+<% })%>
+<br>
