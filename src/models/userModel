@@ -1,0 +1,45 @@
+///
+const jwt = require('jsonwebtoken')
+///
+const mongoose = require('mongoose')
+
+const UserScheme = new mongoose.Schema({
+    name: {
+        type: String,
+        default: 'undefined'
+    },
+    age: {
+        type: Number,
+        default: 29
+    },
+    email: {
+        type: String,
+        default: 'undefined'
+    },
+
+    password: {
+        type: String,
+        default: 'undefined'
+    },
+    avatarURL: {
+        type: String,
+        default: 'undefined'
+    },
+    role: {
+        type: String,
+        default: 'user'
+    }
+},
+    {
+        timestamps: true,
+        versionKey: false
+    });
+
+    // jwt token
+UserScheme.methods.getJwtToken = function () {
+    return jwt.sign({ id: this._id}, process.env.JWT_SECRET_KEY,{
+      expiresIn: process.env.JWT_EXPIRES,
+    });
+  };
+
+module.exports = mongoose.model('users', UserScheme)

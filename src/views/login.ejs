@@ -1,0 +1,46 @@
+<%- include("./partials/header") %>
+ 
+        <div class="signFrm">
+        <form class="form" id="form_login">
+            <h3 class="title">Ingrese a su panel</h3> 
+
+            <div class="inputContainer">
+                <input type="text" name = "email" id = "email" class="input" autoComplete="email" required placeholder="a">
+                <label for="" class="label">Correo</label>
+            </div>
+
+            <div class="inputContainer">
+                <input type="text" name = "password" id = "password" class="input" placeholder="a">
+                <label for="" class="label">Clave</label>
+            </div>
+
+            <div>
+                <input type="checkbox" name="remember-me" id="remember-me"/>
+                Recordarme
+            </div>
+            <br>
+            <div>
+                <a href=".forgot-password"> ¿Olvidó su contraseña?</a>
+            </div>
+            
+            
+            <input type="submit" class="submitBtn" value="Entrar">
+            
+
+            <div  class="inputContainer">
+              <h4>¿No se ha registrado todavía?</h4>
+              <a href="/register">
+                Registrarse
+              </a>
+            </div>
+
+          </form>
+
+        </div>
+ 
+ 
+
+<script src="/js/login.js"></script>
+
+
+<%- include("./partials/footer") %>

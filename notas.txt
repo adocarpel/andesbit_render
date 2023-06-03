@@ -1,0 +1,174 @@
+
+
+sudo lsof -i :4000
+kill -9 <PID>
+
+//HE QUITADO DE PACKAGE.JSON
+,
+"devDependencies": {
+    "@tailwindcss/forms": "^0.5.3"
+  }
+//CÓDIGO MÍNIMO PARA POSIBLES POST, PLANTILLAS EJS Y ARCHIVO DE CONTANTES DOTENV:
+//Se usan: bcryptjs jsponwebtoken mongoose express ejs multer...
+//npm install tailwindcss postcss autoprefixer postcss-cli
+//npx tailwindcss init
+//touch postcss.config.js
+//usar: npm run build:css
+npm i nodemailer
+======================
+CODE uno ombuka:
+</center>
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      Register as a new user
+    </h2>
+  </div>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <form class="space-y-6" onSubmit="handleSubmit">
+        <div>
+          <label
+            htmlFor="email"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Full Name
+          </label>
+          <div class="mt-1">
+            <input
+              type="text"
+              name="text"
+              autoComplete="name"
+              required
+              value="name"
+              onChange="setName(e.target.value)"
+              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="email"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Email address
+          </label>
+          <div class="mt-1">
+            <input
+              type="email"
+              name="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange="setEmail(e.target.value)}"
+              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="password"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Password
+          </label>
+          <div class="mt-1 relative">
+            <input
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange= "setPassword(e.target.value)"
+              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+            
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="avatar"
+            class="block text-sm font-medium text-gray-700"
+          ></label>
+          <div class="mt-2 flex items-center">
+            <span class="inline-block h-8 w-8 rounded-full overflow-hidden">
+              {avatar ? (
+                <img
+                  src="{URL.createObjectURL(avatar)}"
+                  alt="avatar"
+                  class="h-full w-full object-cover rounded-full"
+                />
+              ) : (
+                <RxAvatar class="h-8 w-8" />
+              )}
+            </span>
+            <label
+              htmlFor="file-input"
+              class="ml-5 flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <span>Upload a file</span>
+              <input
+                type="file"
+                name="avatar"
+                id="file-input"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleFileInputChange}
+                class="sr-only"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </div>
+        <div class=" w-full"}>
+          <h4>Already have an account?</h4>
+          <a href="/login" class="text-blue-600 pl-2">
+            Sign In
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</center>
+
+================================
+
+
+<div class="signupFrm">
+    <form action="" class="form">
+      <h1 class="title">Sign up</h1>
+
+      <div class="inputContainer">
+        <input type="text" class="input" placeholder="a">
+        <label for="" class="label">Email</label>
+      </div>
+
+      <div class="inputContainer">
+        <input type="text" class="input" placeholder="a">
+        <label for="" class="label">Username</label>
+      </div>
+
+      <div class="inputContainer">
+        <input type="text" class="input" placeholder="a">
+        <label for="" class="label">Password</label>
+      </div>
+
+      <div class="inputContainer">
+        <input type="text" class="input" placeholder="a">
+        <label for="" class="label">Confirm Password</label>
+      </div>
+
+      <input type="submit" class="submitBtn" value="Sign up">
+    </form>
+  </div>

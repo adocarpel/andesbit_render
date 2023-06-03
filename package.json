@@ -1,9 +1,22 @@
 {
+  "name": "andesbit",
+  "version": "1.0.0",
+  "description": "bases de datos",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "postcss src/public/css/tailwind.css -o src/public/css/style.css"
+  },
+  "author": "adolfo Cárdenas",
+  "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "mongoose": "^7.1.0",
-    "mongoose-paginate-v2": "^1.7.1"
-  }
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.2"
+  }  
 }
