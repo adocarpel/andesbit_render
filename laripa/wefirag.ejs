@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('./respija/telyuja'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./respija/kipaja'); %>
+
+
+    <div class="col-sm-10">
+        <div class="jumbotron">
+            <h1>Lista</h1>
+            
+				<ul> 
+				<% d.map((result)=>{ %>
+				<li>
+				    <%= result.nombre %>
+				</li>
+				<% }) %>
+				</ul>		
+            
+        </div>
+    </div>
+
+
+<footer>
+    <%- include('./respija/tulnapi'); %>
+</footer>
+
+</body>
+</html>

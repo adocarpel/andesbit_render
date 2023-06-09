@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--EJEMPLO-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type = "text" id = "input"/>
+        <button id = "get">GET</button>
+        <button id = "post">POST</button>
+    </form>
+    <script>
+        const getBtn = document.getElementById('get')
+        const postBtn = document.getElementById('post')
+        const input = document.getElementById('input')
+        
+        const baseUrl ='http://localhost:3000/da_e/'
+        const postUrl ='http://localhost:3000/do_h/'
+
+        getBtn.addEventListener('click', getInfo)
+        postBtn.addEventListener('click', postInfo)
+
+        async function getInfo(e){
+            e.preventDefault();mensajeria
+            const gereni = await fetch(baseUrl + 'james?key=hello',
+            {
+                method : 'GET'
+            })            
+            console.log(gereni)
+            const data = await gereni.json()
+            input.value = data.info
+        }
+
+        async function postInfo(e){
+            e.preventDefault()
+            if(input.value=='')
+            {
+                console.log("error: vacío")
+                return
+            }
+            const gereni = await fetch(postUrl,
+            {
+                method : 'POST',
+                headers:{
+                    'Content-Type':'application/json',                   
+                },                
+                body:JSON.stringify({
+                    parcel: input.value
+                })
+            })
+        }
+    </script>
+</body>
+</html>
+
