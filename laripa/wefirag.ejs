@@ -9,25 +9,88 @@
     <%- include('./respija/kipaja'); %>
 
 
+   
+
     <div class="col-sm-10">
         <div class="jumbotron">
-            <h1>Lista</h1>
-            
-				<ul> 
-				<% d.map((result)=>{ %>
-				<li>
-				    <%= result.nombre %>
-				</li>
-				<% }) %>
-				</ul>		
-            
+    <center>
+    <div class="signF_rm">
+    
+    <form class="form" method="post" action = "/login" id="form_login">
+        <h3 class="title">Ingrese a su panel</h3> 
+
+        <div class="inputContainer">
+            <input type="text" name = "email" id = "email" class="input" autoComplete="email" required placeholder="a">
+            <label for="" class="label">Correo</label>
         </div>
+
+        <div class="inputContainer">
+            <input type="text" name = "password" id = "password" class="input" placeholder="a">
+            <label for="" class="label">Clave</label>
+        </div>
+
+        <div>
+            <input type="checkbox" name="remember-me" id="remember-me"/>
+            Recordarme
+        </div>
+        <br>
+        <div>
+            <a href=".forgot-password"> ¿Olvidó su contraseña?</a>
+        </div>
+        
+        
+        <input type="submit" class="submitBtn" value="Entrar">
+        <br>
+        
+
+        <div  class="inputContainer">
+          <b style="color:#788078">¿No se ha registrado todavía?</b>
+          <a href="/register">
+            Registrarse
+          </a>
+        </div>
+
+      </form>
+    </center>
+    </div>
+    </div>
     </div>
 
 
-<footer>
-    <%- include('./respija/tulnapi'); %>
-</footer>
+<script>
 
-</body>
-</html>
+
+const form = document.getElementById("form_login");
+
+form.addEventListener("submit", submitForm);
+
+async function submitForm(e){
+e.preventDefault()
+
+const postUrl ="http://127.0.0.1:3000/a/ingreso/yupafi"
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+
+let objl ={
+    email:email.value,
+    password:password.value
+}
+
+const gereni = await fetch(postUrl,
+{
+    method : 'POST',
+    headers:{
+        'Content-Type':'application/json',                   
+    },                
+    body:JSON.stringify(objl)
+})
+const redirectUrl ="http://127.0.0.1:3000/panel"
+window.location.href = redirectUrl;
+}
+
+
+</script>
+
+
+    <%- include('./respija/tulnapi'); %>
