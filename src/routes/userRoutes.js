@@ -13,8 +13,9 @@ const userModel = require('../models/userModel')
 
 //a/ingreso
 
-router.get('/', (b,g)=>{
-    let data = localdata(); g.render('login',{d:data})
+router.get('/', (req,res)=>{
+    
+    let data = localdata(); res.render('login',{d:data})
 })
 
 

@@ -34,9 +34,10 @@ const errorHandler = (err, req, res, next) => {
         stackTrace: err.stack,
       });
     default:
-      console.log("No Error, All good !");
+      console.log("No Error, All good !");      
       break;
   }
+ 
 };
 
 module.exports = errorHandler;

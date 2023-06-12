@@ -1,4 +1,4 @@
-const d=()=>{
+const localdata=()=>{
   let x = ([
 			{
 				"nombre": "a",
@@ -36,4 +36,4 @@ const werufi=()=>{
   }
   
 
-module.exports={d, werufi}
+module.exports={localdata, werufi}

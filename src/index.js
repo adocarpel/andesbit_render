@@ -63,5 +63,7 @@
     const user=b.user
     g.render('panel',{data:user})
   })
+  /////
   app.use(errorHandler);//?CONECTA CON EXPRESS?
+  /////
   app.listen(port,()=>{console.log(`Servidor en la url http://127.0.0.1:${port}/`)})
