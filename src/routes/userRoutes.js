@@ -1,48 +1,48 @@
-const { constants } = require("../petoja");
-const e = require("express");
-const {werufi} = require("../bundata/buntica");
-const teroja = e.Router();
+const { constants } = require("../constants");
+const express = require("express");
+const {localdata} = require("../data/buntica");
+const router = express.Router();
 
 ///const { httpError } = require('../sorija/___handleError')
-const { encrypt, compare } = require('../sorija/handleBcrypt')
-const ErrorHandler = require("../sorija/verifyError");
-const {sendToken} = require("../sorija/jwtFunctions");
-const sendMail = require("../sorija/sendMail");
+const { encrypt, compare } = require('../helpers/handleBcrypt')
+const {sendToken} = require("../helpers/jwtFunctions");
+const sendMail = require("../helpers/sendMail");
 const jwt = require("jsonwebtoken");
 const userModel = require('../models/userModel')
 
 
 //a/ingreso
 
-teroja.get('/', (b,g)=>{
-    let data = werufi(); g.render('wefirag',{d:data})
+router.get('/', (b,g)=>{
+    let data = localdata(); g.render('login',{d:data})
 })
 
 
 //a/ingreso/(post=yupafi):
 
-teroja.post('/yupafi', async(b, g, next)=>{
-    try {
+router.post('/verificacion', async(b, g, next)=>{
+    //try {
         const { email, password } = b.body;
         
         if (!email || !password) {
-          return next(new ErrorHandler("Please provide the all fields!", 400));
+            res.status(400);
+            throw new Error("All fields are mandatory!");
         }
         if(constants.WEB_PRESENT)
         {   
-            console.log("PRU·BA")         
+            console.log("USER_VERIFICATION")         
             const user = await userModel.findOne({ email }).select("+password");
                 
             if (!user) {
-            return next(new ErrorHandler("User doesn't exists!", 400));
+                res.status(400);
+                throw new Error("El usuario no existe");            
             }
             ///const isPasswordValid = await user.comparePassword(password);
             const isPasswordValid = await compare(password, user.password) //TODO: Contraseña!
             
             if (!isPasswordValid) {
-                return next(
-                    new ErrorHandler("Please provide the correct information", 400)
-                );
+                res.status(401);
+                throw new Error("La clave no es válida");
             }                  
             sendToken(user, g);            
         }
@@ -59,11 +59,13 @@ teroja.post('/yupafi', async(b, g, next)=>{
             ////sendToken(oser, g);
             jwt.sign({ id: "asdipofjaoisjffijfe"}, process.env.JWT_SECRET_KEY,{
                 expiresIn: process.env.JWT_EXPIRES,
-              });
+              });            
         }
-        next(); //PARA CORS
+        next(); //PARA CORS  
+    /*    PROUE EN INDEX TENEMOS EL MANEJADOR DE ERRORES
     } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
+    return  console.error(error);
     }
+    */
 })
-module.exports = teroja
+module.exports = router

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <%- include('./respija/telyuja'); %>
+    <%- include('./parts/header'); %>
 </head>
 <body class="container">
 
 <header>
-    <%- include('./respija/kipaja'); %>
+    <%- include('./parts/up'); %>
 
 
    
@@ -67,7 +67,7 @@ form.addEventListener("submit", submitForm);
 async function submitForm(e){
 e.preventDefault()
 
-const postUrl ="http://127.0.0.1:3000/a/ingreso/yupafi"
+const postUrl ="http://127.0.0.1:3000/a/ingreso/verificacion"
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
@@ -93,4 +93,4 @@ window.location.href = redirectUrl;
 </script>
 
 
-    <%- include('./respija/tulnapi'); %>
+    <%- include('./parts/footer'); %>
