@@ -77,7 +77,9 @@ function submitForm(e)
     const age = document.getElementById("age");
     const email = document.getElementById("email");
     const password = document.getElementById("password");
-    const postUrl = "<%= global_url %>" + "/a/usuario/pre_register"
+
+    const postUrl = "/pre_register"
+    /////const postUrl = "<%= global_url %>" + "/a/usuario/pre_register"
 
 
     const filename = files.files[0].name; //· avatar
@@ -136,7 +138,7 @@ function submitForm(e)
       //  .then((res) => {console.log(res); /*window.location.href = redirectUrl;*/})
       //  .catch((err) => ("Error occured", err));
     
-    /*window.location.href = redirectUrl;*/
+    window.location.href = redirectUrl;
 
     // "Content-Type": "multipart/form-data"  //va en headers  
     //headers:{"Content-Type": `multipart/form-data; boundary=.............}`},
