@@ -131,12 +131,11 @@ function submitForm(e)
     const redirectUrl = "/revisar";
 
     fetch(postUrl, {
-        method: 'POST',
-        
+        method: 'POST',        
         body: formData      
     })
-      //  .then((res) => {console.log(res); /*window.location.href = redirectUrl;*/})
-      //  .catch((err) => ("Error occured", err));
+    .then((res) => {console.log(res); /*window.location.href = redirectUrl;*/})
+    .catch((err) => ("Error occured", err));
     
     window.location.href = redirectUrl;
 
