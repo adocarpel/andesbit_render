@@ -16,7 +16,7 @@
     <center>
     <div class="signF_rm">
     
-    <form class="form" method="post" action = "/login" id="form_login">
+    <form class="form" method="post" action = "/a/ingreso/usuario/verificar" id="form_login">
         <h3 class="title">Ingrese a su panel</h3> 
 
         <div class="inputContainer">
@@ -67,7 +67,7 @@ form.addEventListener("submit", submitForm);
 async function submitForm(e){
 e.preventDefault()
 
-const postUrl ="http://127.0.0.1:3000/a/ingreso/verificacion"
+const postUrl = "<%= global_url %>" + "/a/usuario/verificar"
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
@@ -85,7 +85,7 @@ const gereni = await fetch(postUrl,
     },                
     body:JSON.stringify(objl)
 })
-const redirectUrl ="http://127.0.0.1:3000/panel"
+const redirectUrl = "<%= global_url %>" + "/panel"
 window.location.href = redirectUrl;
 }
 

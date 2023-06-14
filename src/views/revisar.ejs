@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('./parts/header'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./parts/up'); %>
+  
+
+    <div class="col-sm-10">
+        <div class="jumbotron">
+    <center>
+    <div class="signF_rm">
+    
+    <form class="form" method="post" action = "/a/usuario/pre_register" id="form_signin">
+        <h3 class="title">Registrarse</h3>   
+    
+        <div class="inputContainer">
+          <input type="text" name = "name" id = "name" class="input" placeholder="a">
+          <label for="" class="label">Nombre</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "age" id = "age" class="input" placeholder="a">
+          <label for="" class="label">Edad</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "email" id = "email" class="input" placeholder="a">
+          <label for="" class="label">Correo</label>
+        </div>    
+    
+        <div class="inputContainer">
+          <input type="text" name = "password" id = "password" class="input" placeholder="a">
+          <label for="" class="label">Clave</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "c_clave" id = "c_clave" class="input" placeholder="a">
+          <label for="" class="label">Confirmar clave</label>
+        </div>
+    
+        <div class="inputContainer">
+          <!--label for="file-upload" class="custom-file-upload"-->
+          <label for="files" class="custom-file-upload">  
+            <i class="fa-cloud-upload"><img width=20 height=20 src="/imgs/upload.jpg"/></i> Subir avatar
+            <div id="avatar_name" style = "margin-left:20px; display:inline">...</div>
+          </label>
+          <!--input id="file-upload" name = "file-upload" type="file" onchange="uploadFile(this,this.value)" /-->
+          <input id='files' name = 'files' type="file" onchange="showFile(this)" multiple>
+        </div>
+    
+    
+        REVISE SU CORREO LE HA SIDO ENVIADO UN LINK PARA ACTIVAR SU CUENTA
+      </form>
+    </center>
+    </div>
+    </div>
+    </div>
+
+
+    <%- include('./parts/footer'); %>

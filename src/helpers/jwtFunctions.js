@@ -1,5 +1,6 @@
-const jwt = require('jsonwebtoken') //TODO : 😎
+const jwt = require('jsonwebtoken') 
 
+/* ya no necesaro porqu se usa el del modelo userModel...
 const tokenSign = async (user) => { //TODO: Genera Token
     
     return jwt.sign(
@@ -18,7 +19,8 @@ const tokenSign = async (user) => { //TODO: Genera Token
         }
     );
 }
-
+*/
+//PARAUSARPRONTO
 const verifyToken = async (token) => {
     try {
         return jwt.verify(token, process.env.JWT_SECRET_KEY)
@@ -26,13 +28,13 @@ const verifyToken = async (token) => {
         return null
     }
 }
-
+/*VERIFICAR
 const decodeSign = (token) => { //: Verificar que el token sea valido y correcto
     return jwt.decode(token, null)
 }
+*/
 
-
-const sendToken = (user, res, redirect) => {
+const sendToken = (user, res) => {
 
     const token = user.getJwtToken();
   
@@ -47,4 +49,5 @@ const sendToken = (user, res, redirect) => {
     
   };
   
-module.exports = { tokenSign, decodeSign, verifyToken, sendToken }
+///module.exports = { tokenSign, decodeSign, verifyToken, sendToken }
+module.exports = { verifyToken, sendToken }

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('./parts/header'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./parts/up'); %>
+  
+
+    <div class="col-sm-10">
+        <div class="jumbotron">
+    <center>
+    <div class="signF_rm">
+    
+    <form class="form" method="post" action = "/a/usuario/pre_register" id="form_signin">
+        <h3 class="title">Registrarse</h3>   
+    
+        <div class="inputContainer">
+          <input type="text" name = "name" id = "name" class="input" placeholder="a">
+          <label for="" class="label">Nombre</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "age" id = "age" class="input" placeholder="a">
+          <label for="" class="label">Edad</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "email" id = "email" class="input" placeholder="a">
+          <label for="" class="label">Correo</label>
+        </div>    
+    
+        <div class="inputContainer">
+          <input type="text" name = "password" id = "password" class="input" placeholder="a">
+          <label for="" class="label">Clave</label>
+        </div>
+    
+        <div class="inputContainer">
+          <input type="text" name = "c_clave" id = "c_clave" class="input" placeholder="a">
+          <label for="" class="label">Confirmar clave</label>
+        </div>
+    
+        <div class="inputContainer">
+          <!--label for="file-upload" class="custom-file-upload"-->
+          <label for="files" class="custom-file-upload">  
+            <i class="fa-cloud-upload"><img width=20 height=20 src="/imgs/upload.jpg"/></i> Subir avatar
+            <div id="avatar_name" style = "margin-left:20px; display:inline">...</div>
+          </label>
+          <!--input id="file-upload" name = "file-upload" type="file" onchange="uploadFile(this,this.value)" /-->
+          <input id='files' name = 'files' type="file" onchange="showFile(this)" multiple>
+        </div>
+    
+    
+        <input type="submit" class="submitBtn" value="Registrar">
+      </form>
+    </center>
+    </div>
+    </div>
+    </div>
+
+
+<script>
+
+
+const form = document.getElementById("form_signin");
+
+let thefile = "....";
+form.addEventListener("submit", submitForm);
+
+//async function submitForm(e) {
+function submitForm(e) 
+{
+    e.preventDefault();
+    const name = document.getElementById("name");
+    const age = document.getElementById("age");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const postUrl = "<%= global_url %>" + "/a/usuario/pre_register"
+
+
+    const filename = files.files[0].name; //· avatar
+
+    ///console.log(files.files[0].name);return
+
+    //sconst fileUrl = path.join(__dirname, filename);
+    ////"% global_dirname % + filename;
+
+    const fileUrl = filename;
+
+    console.log(fileUrl);
+
+    let objl ={
+        age:age.value,
+        email:email.value,
+        name:name.value,
+        password:password.value,
+        avatarUrl:thefile,
+        files: "avatar1.png"
+    }
+
+
+
+   /*
+    const gereni = fetch(postUrl,
+    {
+        method : 'POST',
+        headers:{
+            'Content-Type':'application/json',                   
+        },                
+        body:JSON.stringify(objl)
+    })
+    
+   */
+  ///*
+    const formData = new FormData()
+    formData.append("name", name.value)
+    formData.append("age", age.value)
+    formData.append("email", email.value)
+    formData.append("password", password.value)
+    formData.append("avatarUrl", thefile)
+
+    for(let i =0; i < files.files.length; i++) {
+            formData.append("files", files.files[i])
+    }
+   
+    const redirectUrl = "<%= global_url %>" + "/revisar";
+
+    fetch(postUrl, {
+        method: 'POST',
+        
+        body: formData      
+    })
+        .then((res) => {console.log(res); window.location.href = redirectUrl;})
+        .catch((err) => ("Error occured", err));
+    
+    window.location.href = redirectUrl;
+
+    // "Content-Type": "multipart/form-data"  //va en headers  
+    //headers:{"Content-Type": `multipart/form-data; boundary=.............}`},
+ //*/
+}
+
+//ON CHANGE:
+
+function showFile (e) {
+    const file = e.files[0];
+    thefile = file.name;
+    document.getElementById('avatar_name').innerHTML = file.name;//file;
+};
+
+
+
+
+
+</script>
+
+
+    <%- include('./parts/footer'); %>
