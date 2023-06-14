@@ -125,7 +125,8 @@ function submitForm(e)
             formData.append("files", files.files[i])
     }
    
-    const redirectUrl = "<%= global_url %>" + "/revisar";
+    ///const redirectUrl = "<%= global_url %>" + "/revisar";
+    const redirectUrl = "/revisar";
 
     fetch(postUrl, {
         method: 'POST',
