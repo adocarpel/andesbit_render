@@ -60,14 +60,18 @@
   {
     let ruta = p.join(__dirname, 'uploads')
 
-    fs.readdir(ruta, function (err, archivos) {
-    if (err) {
-     console.log(err);
-    //return;
-    }
-      console.log(archivos);
+    fs.readdir(ruta, function (err, archivos) 
+    {      
+      if (err) {
+        console.log(err);
+        //return;
+      }
+      res.render("show_files", {d:archivos})
+      /////console.log(archivos);
     });
-    res.send("marejada")
+     
+    
+
   })
 
 
