@@ -78,7 +78,7 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
         });
         */
        res.send(`¡Por favor revise su email:- ${user.email} para activar su cuenta!`)
-       return;//??????????????
+       //return;//??????????????
         //////////////////////next()
     } catch (error) {        
         res.status(500);

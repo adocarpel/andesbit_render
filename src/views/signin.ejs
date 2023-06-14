@@ -133,10 +133,10 @@ function submitForm(e)
         
         body: formData      
     })
-        .then((res) => {console.log(res); window.location.href = redirectUrl;})
+        .then((res) => {console.log(res); /*window.location.href = redirectUrl;*/})
         .catch((err) => ("Error occured", err));
     
-    window.location.href = redirectUrl;
+    /*window.location.href = redirectUrl;*/
 
     // "Content-Type": "multipart/form-data"  //va en headers  
     //headers:{"Content-Type": `multipart/form-data; boundary=.............}`},
