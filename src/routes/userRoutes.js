@@ -23,8 +23,20 @@ router.get('/registrar', (req, res)=>
 
 router.post('/pre_register', upload.single("files"), async(req, res)=>
 {       
-    const { age, email, name, password, avatarUrl} = await req.body
-      
+    ///console.log ("NOENTIENDO")
+    let img_name = req.body.files
+    ///console.log ("}}}",n)
+    
+    ////const { age, email, name, password, avatarUrl} = await req.body
+
+    const { age, email, name, password} = await req.body
+
+    let r1 = email.replace('@','a')
+    let re = /\./g
+    let r2 = r1.replace(re, 'p')
+    
+    let avatarUrl = r2 + img_name
+    
     console.log("::",age, email, name, password, avatarUrl)
     ///console.log("PREREGISTER",email)
 
@@ -60,7 +72,7 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
         name: name,            
         password: passwordHash
     }
-    ///////console.log(user);
+    console.log(user);
     
     const tokenSession = createActivationToken(user)
     const activationUrl = `${process.env.URL_APP}/a/usuario/panel/${tokenSession}`;
