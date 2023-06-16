@@ -24,12 +24,14 @@ router.get('/registrar', (req, res)=>
 router.post('/pre_register', upload.single("files"), async(req, res)=>
 {       
     ///console.log ("NOENTIENDO")
-    let img_name = req.body.files
-    ///console.log ("}}}",n)
     
     ////const { age, email, name, password, avatarUrl} = await req.body
-
+    let img_name = req.file.originalname
     const { age, email, name, password} = await req.body
+
+    
+    /////console.log ("}}}",img_name)
+    
 
     let r1 = email.replace('@','a')
     let re = /\./g
@@ -37,8 +39,8 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
     
     let avatarUrl = r2 + img_name
     
-    console.log("::",age, email, name, password, avatarUrl)
-    ///console.log("PREREGISTER",email)
+    /////console.log("::",age, email, name, password, avatarUrl)
+    
 
     const userEmail = await userModel.findOne({ email });
 
