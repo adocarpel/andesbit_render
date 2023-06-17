@@ -28,6 +28,7 @@ const verifyToken = async (token) => {
         return null
     }
 }
+
 /*VERIFICAR
 const decodeSign = (token) => { //: Verificar que el token sea valido y correcto
     return jwt.decode(token, null)

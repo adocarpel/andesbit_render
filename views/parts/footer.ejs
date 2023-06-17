@@ -5,5 +5,22 @@
     <p class="text-center text-muted">© Copyright 2023 Andesbit software</p>
 </footer>
 
+<script>
+
+    window.onload = userReference(<%= uPresent %>)
+
+    function userReference(u_present)
+    {
+        let user_ref = "_";
+
+        if(u_present)
+            user_ref = "[ Usuario: <%= user.name %> ]"
+        else
+            user_ref = "[ Usuario: " + "____" + " ]"
+
+        document.getElementById("user_reference").innerHTML = user_ref
+    }
+</script>
+
 </body>
 </html>

@@ -8,7 +8,8 @@
   const bodyParser = require("body-parser")
   require('dotenv').config()
   const fs = require('fs')
-
+  const {dataUserAuthenticated} = require('./middleware/auth')
+  
   const listRoutes = require("./routes/listRoutes")
   const usersRoutes = require("./routes/userRoutes")
 
@@ -49,24 +50,38 @@
   const port = process.env.PORT || 3000
 
 
-  app.get ('/acerca_de', (req, res)=>
+  app.get ('/acerca_de', async(req, res)=>
   {
-    res.status(200).render('acerca_de')
+    let user_decoded = await dataUserAuthenticated(req)    
+    let uPresent = true
+    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
+    res.status(200).render('acerca_de', {user:user_decoded, uPresent:uPresent})
   })
   
-  app.get('/',(req,res)=>{res.render('ini')})
+  app.get('/', async(req,res)=>
+  {
+    let user_decoded = await dataUserAuthenticated(req)    
+    let uPresent = true
+    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
+    res.render('ini',{user:user_decoded, uPresent:uPresent})
+  })
   
   app.get('/chi',(req,res)=>
   {
     let ruta = p.join(__dirname, 'uploads')
 
-    fs.readdir(ruta, function (err, archivos) 
+    fs.readdir(ruta, async function (err, archivos) 
     {      
       if (err) {
         console.log(err);
         //return;
       }
-      res.render("show_files", {d:archivos})
+
+      let user_decoded = await dataUserAuthenticated(req)    
+      let uPresent = true
+      if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
+
+      res.render("show_files", {d:archivos, user:user_decoded, uPresent:uPresent})
       /////console.log(archivos);
     });
      
@@ -75,13 +90,13 @@
   })
 
 
-  app.get('/revisar',(req,res)=>{res.render('revisar')})
-
   app.get('/panel', isAuthenticated, (req,res)=>
   {
-    console.log(req.user)
-    const user = req.user
-    res.render('panel',{data:user})
+    //console.log(req.user)
+    const user = req.user    
+    let uPresent = true
+    if(user == null) {user = {name:"____"}; uPresent = false}
+    res.render('panel',{user:user, uPresent:uPresent})
   })
 
   

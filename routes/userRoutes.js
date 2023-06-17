@@ -9,14 +9,18 @@ const {sendToken} = require("../helpers/jwtFunctions");
 const sendMail = require("../helpers/sendMail");
 const jwt = require("jsonwebtoken");
 const userModel = require('../models/userModel')
+const {dataUserAuthenticated} = require('../middleware/auth')
 
-///const multer  = require('multer')
-///const upload = multer({ dest: './uploads/' })
 const { upload } = require("../multer");
 
-router.get('/registrar', (req, res)=>
-{       
-    res.render('signin', {global_url:process.env.URL_APP})
+router.get('/registrar', async(req, res)=>
+{   
+    
+    let user_decoded = await dataUserAuthenticated(req)    
+    let uPresent = true
+    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
+
+    res.render('signin', {global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
 })
 
 /////VER PARAM upload.array: router.post('/register', upload.array("files"), registerCtrl)
@@ -74,7 +78,7 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
         name: name,            
         password: passwordHash
     }
-    console.log(user);
+    /////console.log(user);
     
     const tokenSession = createActivationToken(user)
     const activationUrl = `${process.env.URL_APP}/a/usuario/panel/${tokenSession}`;
@@ -85,15 +89,7 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
             subject: "Activar tu cuenta",
             message: `Hola ${user.name}, por favor revise su email para activar su cuenta: ${activationUrl}`,
         });
-        /*
-        res.status(201).json({
-            success: true,
-            message: `¡Por favor revise su email:- ${user.email} para activar su cuenta!`,
-        });
-        */
        res.send(`¡Por favor revise su email:- ${user.email} para activar su cuenta!`)
-       //return;//??????????????
-        //////////////////////next()
     } catch (error) {        
         res.status(500);
         throw new Error(error.message);
@@ -170,64 +166,25 @@ router.get('/panel/:token', async(req, res) =>
 
   sendToken(user, res);
 
-/*
-
-  put(`${server}/user/update-avatar`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    withCredentials: true,
-  })
-*/
-  console.log(" · º [ )u ] }· ")
-  ///console.log(decoded1)
-  res.render("panel",{data:user})
+  res.render("panel",{user:user, uPresent : true})
 })
 
-/*
-router.post('/activar', async(b, g, next)=>
-{
-    const { activation_token } = req.body;
 
-    const newUser = jwt.verify(
-      activation_token,
-      process.env.ACTIVATION_SECRET
-    );
-
-    if (!newUser) {      
-      res.status(400);
-      throw new Error("token no válido.");
-    }
-    const { name, email, password, avatar } = newUser;
-
-    let user = await userModel.findOne({ email });
-
-    if (user) {
-      res.status(400);
-      throw new Error("El usuario ya existe.");
-    }
-    user = await userModel.create({
-      name,
-      email,
-      avatar,
-      password,
-    });
-
-    sendToken(user, 201, res);
-})
-*/
-
-router.get('/ingresar', (req,res)=>
+router.get('/ingresar', async(req,res)=>
 {    
     let data = localdata(); 
-    res.render('login',{d:data, global_url:process.env.URL_APP})
+
+    let user_decoded = await dataUserAuthenticated(req)    
+    let uPresent = true
+    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
+
+    res.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
 })
 
 
 router.post('/verificar', async(b, g, next)=>
 {
-    //try {
-        const { email, password } = b.body;
+       const { email, password } = b.body;
         
         if (!email || !password) {
             res.status(400);
@@ -235,7 +192,7 @@ router.post('/verificar', async(b, g, next)=>
         }
         if(constants.WEB_PRESENT)
         {   
-            console.log("USER_VERIFICATION")         
+            ////console.log("USER_VERIFICATION")         
             const user = await userModel.findOne({ email }).select("+password");
                 
             if (!user) {
@@ -267,12 +224,6 @@ router.post('/verificar', async(b, g, next)=>
               });            
         }
         next(); //PARA CORS  
-
-    /*    PORQUE EN INDEX TENEMOS EL MANEJADOR DE ERRORES
-    } catch (error) {
-    return  console.error(error);
-    }
-    */
 })
 
 
