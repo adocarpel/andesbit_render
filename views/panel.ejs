@@ -7,40 +7,86 @@
 
 <header>
     <%- include('./parts/up'); %>
-    
-    <div class="col-sm-10">
-        <div class="jumbotron">
-<h4>Panel</h4>
+
+    <div class="jumbotron"> 
+
+      <h1>Lista de publicaciones</h1>
+    <div class="pubSC">     
+      <% var myTags = []; %>
+        <% publications.map((datp)=>{ %>
+            <div class = "pubC">
+            <b><%= datp.title %></b><br>
+            <div onclick="window.open('<%= datp.url %>', '_blank')" style = "cursor:pointer;display:box;width:200px;height:160px;background-image:url(<%= pathimgs %>/<%= datp.graphUrl %>)" > 
+            <marquee direction="up" style = "height:100%"><%= datp.comments %></marquee></div>
+          </div>
+        <% }) %>        
+    </div>
+
+    <div style = "width:100%; clear:both;">
+
+    <center>       
 
     <div class="signF_rm">
     
-    <form class="form" method="post" action = "/login" id="form_login">
+        <form class="form" method="post" action = "/a/usuario/upload_item" id="form_signin" enctype="multipart/form-data">
 
-        <div class="inputContainer">
-            <input type="text" name = "msg" id = "msg" class="input" required placeholder="a">
-            <label for="" class="label">mensaje</label>
-        </div>
-      <input type="submit" class="submitBtn" value="Enviar">
+            <h3 class="title">Publicación</h3>   
+            <input type ="hidden" value="<%= user._id %>" name = "user_id"/>
+            <input type ="hidden" value="<%= user.email %>" name = "email"/>
+            <div class="inputContainer">
+                <input type="text" name = "title" id = "title" class="input" placeholder="a">
+                <label for="" class="label">Título</label>
+              </div>
+                  
+            <div class="inputContainer">
+              <input type="text" name = "url" id = "url" class="input" placeholder="a">
+              <label for="" class="label">URL o enlace</label>
+            </div>    
         
-
-
-      </form>
-
+            <div class="inputContainer">
+              <input type="text" name = "comments" id = "comments" class="input" placeholder="a">
+              <label for="" class="label">Comentarios</label>
+            </div>
+        
+            
+            <div class="inputContainer">
+              
+              <label for="files" class="custom-file-upload">  
+                <i class="fa-cloud-upload"><img width=20 height=20 src="/imgs/upload.jpg"/></i> Subir gráfico
+                <div id="graph_name" style = "margin-left:20px; display:inline">...</div>
+              </label>
+              
+              <input id='files' name = 'files' type="file" onchange="showFile(this)" multiple>
+            </div>
+        
+        
+            <input type="submit" class="submitBtn" value="Enviar">
+          </form>
+     
 
     </div>
-    </div>
-    </div>
 
+    </center>
+  </div><!--syle-->
+
+    </div>
 
 <script>
-/*
-    window.onload = tulpika("<%= data.name %>")
 
-    function tulpika(x){
-        let p = "[ Usuario: " + x + " ]"
-        document.getElementById("tuljara").innerHTML=p
+    let thefile = "....";
+    
+
+    // { ON CHANGE: }
+
+    function showFile (e) 
+    {
+        const file = e.files[0]
+        thefile = file.name
+        document.getElementById('graph_name').innerHTML = file.name;
     }
-*/
+
+
 </script>
+
 
 <%- include('./parts/footer'); %>

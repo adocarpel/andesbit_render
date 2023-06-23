@@ -1,0 +1,39 @@
+///
+const jwt = require('jsonwebtoken')
+///
+const mongoose = require('mongoose')
+
+const PublicationScheme = new mongoose.Schema(
+{
+    title: {
+        type: String,
+        default: 'undefined'
+    },
+    
+    url: {
+        type: String,
+        default: 'undefined'
+    },
+
+    comments: {
+        type: String,
+        default: 'undefined'
+    },
+    
+    graphUrl: {
+        type: String,
+        default: 'undefined'
+    },
+    uidka: { 
+        type: String,
+        default: 'undefined' 
+    }
+    //owner: {type: mongoose.Types.ObjectId, ref: "userModel"}    
+},
+{
+    timestamps: true,
+    versionKey: false
+});
+
+    
+module.exports = mongoose.model('publications', PublicationScheme)

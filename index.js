@@ -12,8 +12,14 @@
   
   const listRoutes = require("./routes/listRoutes")
   const usersRoutes = require("./routes/userRoutes")
+  const publicsRoutes = require("./routes/publicsRoutes")
 
   const { isAuthenticated } = require("./middleware/auth")
+
+////////////////////////7777
+const publications = require('./models/publications')
+const path = require("path");
+////////////////////////7777
 
   const app = express()
   app.set('view engine','ejs')
@@ -45,6 +51,8 @@
   app.use("/a/lista", listRoutes)
 
   app.use("/a/usuario", usersRoutes)
+
+  app.use("/publicaciones", publicsRoutes)
 
 
   const port = process.env.PORT || 3000
@@ -90,13 +98,33 @@
   })
 
 
-  app.get('/panel', isAuthenticated, (req,res)=>
-  {
-    //console.log(req.user)
+  app.get('/panel', isAuthenticated, async(req,res)=>
+  {    
     const user = req.user    
-    let uPresent = true
-    if(user == null) {user = {name:"____"}; uPresent = false}
-    res.render('panel',{user:user, uPresent:uPresent})
+
+    let uPresent = true     
+    let pubs = {}
+    let completep = '____'
+    
+    if(user == null) {
+      user = {name:"____"}; 
+      uPresent = false
+    }
+    else
+    {
+   
+      pubs = await publications.find({ uidka: user._id })
+
+      const email = user.email
+     
+      let r1 = email.replace('@','a')
+      let re = /\./g
+      let r2 = r1.replace(re, 'p');
+      completep = path.join(__dirname, './uploads' + '/' + r2)
+    }
+    
+    
+    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep})
   })
 
   

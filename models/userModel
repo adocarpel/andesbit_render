@@ -3,37 +3,43 @@ const jwt = require('jsonwebtoken')
 ///
 const mongoose = require('mongoose')
 
-const UserScheme = new mongoose.Schema({
-    name: {
-        type: String,
-        default: 'undefined'
-    },
-    age: {
-        type: Number,
-        default: 29
-    },
-    email: {
-        type: String,
-        default: 'undefined'
-    },
+const UserScheme = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            default: 'undefined'
+        },
+        age: {
+            type: Number,
+            default: 29
+        },
+        email: {
+            type: String,
+            default: 'undefined'
+        },
 
-    password: {
-        type: String,
-        default: 'undefined'
+        password: {
+            type: String,
+            default: 'undefined'
+        },
+        avatarUrl: {
+            type: String,
+            default: 'undefined'
+        },
+        role: {
+            type: String,
+            default: 'user'
+        },
+        publications: [{
+            type: mongoose.Types.ObjectId,
+            ref: "publications"
+        }]
     },
-    avatarUrl: {
-        type: String,
-        default: 'undefined'
-    },
-    role: {
-        type: String,
-        default: 'user'
-    }
-},
     {
         timestamps: true,
         versionKey: false
-    });
+    }
+);
 
     // jwt token
 UserScheme.methods.getJwtToken = function () {
@@ -41,5 +47,5 @@ UserScheme.methods.getJwtToken = function () {
       expiresIn: process.env.JWT_EXPIRES,
     });
   };
-
+//TABLENAME=users
 module.exports = mongoose.model('users', UserScheme)

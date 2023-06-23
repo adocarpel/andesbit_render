@@ -1,18 +1,19 @@
-const { constants } = require("../constants");
+//const {constants} = require("../constants");
 const express = require("express");
 const {localdata} = require("../data/buntica");
 const router = express.Router();
-const p = require('path')
-
-const { encrypt, compare } = require('../helpers/handleBcrypt')
+const path = require('path')
+const {encrypt, compare} = require('../helpers/handleBcrypt')
 const {sendToken} = require("../helpers/jwtFunctions");
 const sendMail = require("../helpers/sendMail");
 const jwt = require("jsonwebtoken");
 const userModel = require('../models/userModel')
+const publications = require('../models/publications')
 const {dataUserAuthenticated} = require('../middleware/auth')
+const {upload} = require("../multer");
+const {upload2} = require("../multer2");
 
-const { upload } = require("../multer");
-
+//SIGNIN
 router.get('/registrar', async(req, res)=>
 {   
     
@@ -23,27 +24,13 @@ router.get('/registrar', async(req, res)=>
     res.render('signin', {global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
 })
 
-/////VER PARAM upload.array: router.post('/register', upload.array("files"), registerCtrl)
 
 router.post('/pre_register', upload.single("files"), async(req, res)=>
 {       
-    ///console.log ("NOENTIENDO")
-    
-    ////const { age, email, name, password, avatarUrl} = await req.body
     let img_name = req.file.originalname
     const { age, email, name, password} = await req.body
 
-    
-    /////console.log ("}}}",img_name)
-    
-
-    let r1 = email.replace('@','a')
-    let re = /\./g
-    let r2 = r1.replace(re, 'p')
-    
-    let avatarUrl = r2 + img_name
-    
-    /////console.log("::",age, email, name, password, avatarUrl)
+    let avatarUrl = "liavatarli_" + img_name
     
 
     const userEmail = await userModel.findOne({ email });
@@ -64,37 +51,40 @@ router.post('/pre_register', upload.single("files"), async(req, res)=>
         
         return next(new ErrorHandler("User already exists", 400));
         */
+       res.send("el usuario ya existe")
     }
-    
-    const passwordHash = await encrypt(password)
-    //const filename = req.files[0].filename
-    //console.log(filename)
-    ///const fileUrl = filename;//join(__dirname, filename);
+    else
+    {
+        const passwordHash = await encrypt(password)
+        //const filename = req.files[0].filename
+        //console.log(filename)
+        ///const fileUrl = filename;//join(__dirname, filename);
 
-    const user = {
-        age : age,
-        avatarUrl: avatarUrl,//fileUrl,
-        email: email,
-        name: name,            
-        password: passwordHash
-    }
-    /////console.log(user);
-    
-    const tokenSession = createActivationToken(user)
-    const activationUrl = `${process.env.URL_APP}/a/usuario/panel/${tokenSession}`;
-
-    try {
-        await sendMail({
-            email: user.email,
-            subject: "Activar tu cuenta",
-            message: `Hola ${user.name}, por favor revise su email para activar su cuenta: ${activationUrl}`,
-        });
-       res.send(`¡Por favor revise su email:- ${user.email} para activar su cuenta!`)
-    } catch (error) {        
-        res.status(500);
-        throw new Error(error.message);
+        const user = {
+            age : age,
+            avatarUrl: avatarUrl,//fileUrl,
+            email: email,
+            name: name,            
+            password: passwordHash
+        }
+        /////console.log(user);
         
-    }
+        const tokenSession = createActivationToken(user)
+        const activationUrl = `${process.env.URL_APP}/a/usuario/panel/${tokenSession}`;
+
+        try {
+            await sendMail({
+                email: user.email,
+                subject: "Activar tu cuenta",
+                message: `Hola ${user.name}, por favor revise su email para activar su cuenta: ${activationUrl}`,
+            });
+        res.send(`¡Por favor revise su email:- ${user.email} para activar su cuenta!`)
+        } catch (error) {        
+            res.status(500);
+            throw new Error(error.message);
+            
+        }
+    }    
 
 })
 
@@ -151,40 +141,50 @@ router.get('/panel/:token', async(req, res) =>
   let user = await userModel.findOne({ email });
 
   if (user) {
-    res.status(400);
-    throw new Error("Ya existe el usuario.");
-    //· res.send("YA EXISTE EL USUARIO!")
+    //res.status(400);
+    //throw new Error("Ya existe el usuario.");
+    res.send("YA EXISTE EL USUARIO!")
     //  return next(new ErrorHandler("User already exists", 400));
   }
-  user = await userModel.create({
-      age,
-      avatarUrl,
-      email,    
-      name,    
-      password,
-  });
+  else
+  {
+    user = await userModel.create({
+        age,
+        avatarUrl,
+        email,    
+        name,    
+        password,
+    });
+    sendToken(user, res);
 
-  sendToken(user, res);
+    res.render("panel", {user:user, uPresent: true, publications: [{title:'',url:'',graphUrl:'',comments:''}]})
+  }
 
-  res.render("panel",{user:user, uPresent : true})
+  
 })
 
 
-router.get('/ingresar', async(req,res)=>
+router.get('/ingresar', async(req, s)=> 
 {    
     let data = localdata(); 
-
     let user_decoded = await dataUserAuthenticated(req)    
+    //console.log(user_decoded)
     let uPresent = true
-    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
 
-    res.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
+    if(user_decoded == null) 
+    {
+        user_decoded = {name:"____"}; 
+        uPresent = false;
+        console.log('asha');
+    };
+
+    s.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
 })
 
-
-router.post('/verificar', async(b, g, next)=>
+/*
+router.post('/verificar', async(req, res, next)=>
 {
-       const { email, password } = b.body;
+       const { email, password } = req.body;
         
         if (!email || !password) {
             res.status(400);
@@ -224,6 +224,37 @@ router.post('/verificar', async(b, g, next)=>
               });            
         }
         next(); //PARA CORS  
+})
+*/
+
+router.post('/upload_item', upload2.single("files"), async(req,res)=>
+{
+    let img_name = req.file.originalname
+    
+    //uidka
+        
+    const {user_id, email, title, url, comments} = await req.body
+
+    
+    let graphUrl = img_name
+    let uidka = user_id
+    let user = await dataUserAuthenticated(req)    
+
+    const pub = await publications.create(
+    {
+        title, url, comments, graphUrl, uidka
+    });
+    
+     
+    let r1 = email.replace('@','a')
+    let re = /\./g
+    let r2 = r1.replace(re, 'p');
+    let completep = path.join(__dirname, './uploads' + '/' + r2)
+
+    const pubs = await publications.find({ uidka: user._id })
+
+    res.render('panel',{user:user, uPresent:true, publications:pubs, pathimgs:completep})
+
 })
 
 

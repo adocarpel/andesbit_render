@@ -1,5 +1,5 @@
 *{
-padding:0; left:0; top:0; margin:0	
+	padding:0; left:0; top:0; margin:0	
 }
 
 body{
@@ -110,12 +110,37 @@ body{
 	display: none;
   }
   .custom-file-upload {
-	border: 1px solid #ccc;
+	border: 1px solid #dbcccc;
 	display: inline-block;
 	padding: 6px 12px;
 	cursor: pointer;
   }
-  .fa-cloud-upload{    
+  .fa-cloud-upload {    
 	margin-left:10px;
 	margin-right:20px;
+  }
+ 
+  .pubSC {
+	/*display: flex;*/
+	width: 100%;
+	clear: both;
+	float: left;
+	height:auto;
+	
+	/*border-left:1px solid  #517da1;
+	border-top:1px solid  #517da1;*/
+  }
+
+  .pubC {
+	/*display: inline-flex;*/
+	float:left;
+	/*width:100px;*/
+	margin: 20px;
+	background-color:#f8e9e9;
+	/*
+	border-right:1px solid #517da1;
+	border-bottom:1px solid #517da1;
+	*/
+	border: 1px solid #517da1;
+	padding:3px;
   }

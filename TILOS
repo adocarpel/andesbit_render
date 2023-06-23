@@ -1,0 +1,28 @@
+Debido al método de llenado, podemos recuperar una matriz de todos los objetos de automóviles, en lugar de solo su ID de objeto. ¡Esa es una relación simple de uno a muchos!
+
+
+    F (req, res) 
+
+    {
+
+        PARA: "/get-all-user/ : id"
+        PREV: isAuthenticated
+
+
+        const conversations = AWAIT Conversation.find
+        (
+            {
+                members: 
+                { 
+                    $in: [req.params.id], 
+                },
+
+            }) . sort ( { updatedAt: -1, createdAt: -1 } )
+
+            res.status(201).json(
+            {
+               success: true,
+               conversations,
+            }
+        )
+    }

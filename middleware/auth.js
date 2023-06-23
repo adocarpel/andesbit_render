@@ -1,6 +1,6 @@
 
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
+const users = require("../models/userModel");
 
 exports.isAuthenticated = async(req,res,next) => 
 {
@@ -13,7 +13,7 @@ exports.isAuthenticated = async(req,res,next) =>
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
 
-    req.user = await User.findById(decoded.id);
+    req.user = await users.findById(decoded.id);
 
     next();
 };
@@ -21,10 +21,10 @@ exports.isAuthenticated = async(req,res,next) =>
 exports.dataUserAuthenticated = async(req) => 
 {
     const {token} = req.cookies
-    if(!token) 
-        return null
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-    const user = await User.findById(decoded.id)
+    if(!token) return null
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)    
+    const user = await users.findById(decoded.id)
+    ///console.log("LLLLLLLLLL",user)
     return user
 }
 
