@@ -4,7 +4,18 @@ const fs = require('fs')
 
 const storage = multer.diskStorage(
 {
-    
+//const storage = SharpMulter (
+//{
+    /*
+        destination:(req, file, callback) =>callback(null, "images"),
+        imageOptions:{
+         fileFormat: "jpg",
+         quality: 80,
+         resize: { width: 200, height: 160 },
+        }
+     */
+
+    ///*
     destination: function (req,res,cb)
     {
         const {email} = req.body;       
@@ -30,6 +41,8 @@ const storage = multer.diskStorage(
     {
         cb(null, file.originalname);       
     },
+    //*/
 })
 
 exports.upload2 = multer({storage: storage})
+////const upload  =  multer({ storage });

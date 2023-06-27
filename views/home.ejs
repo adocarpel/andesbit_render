@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include('./parts/header'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./parts/up'); %>
+
+    <div class="jumbotr_on"> 
+      <br>
+      
+
+      <form id = "frm_search">
+        <b>Lista de publicaciones</b>&nbsp;&nbsp;&nbsp;
+        Categoría:&nbsp;<input type ="text" id="txt_search" value ="<%= last_search %>" />
+        &nbsp;<button type" = "submit"><b>&nbsp;&nbsp;>&nbsp;&nbsp;</b></button>
+      </form>
+      
+      <br>
+    <div class="pubSC">
+        <% publications.map((datp)=>{ %>
+            <div class = "pubC">      
+            <b><%= datp.title %></b><br>
+            <div onclick="window.open('<%= datp.url %>', '_blank')" style = "cursor:pointer;display:box;width:220px;height:160px;background-image:url(<%=pathimgs%><%=datp.graphUrl%>)" >
+            <marquee direction="up" style = "height:100%"><%= datp.comments %></marquee></div>
+            &nbsp;<a href="#" onclick="jvascript:alert('point');return false;"> + </a>
+            &nbsp;<a href="#" onclick="jvascript:alert('user');return false;"><%= user.name %></a>
+            &nbsp;<% if(datp.category!='undefined'){ %>              
+              <%= datp.category %>
+           <% } %>
+          </div>
+        <% }) %>        
+    </div>
+
+  
+    </div>
+
+<script>
+
+  
+    const form_search = document.getElementById("frm_search");
+
+    form_search.addEventListener("submit", Buscar);
+
+  
+    function Buscar(e){
+       e.preventDefault()
+  
+       text = document.getElementById("txt_search").value.trim();
+       if(text == "")text="BUNdocsBUN>"
+       location.href ="/buscar/"+text
+       return false;
+
+    }
+
+</script>
+
+
+<%- include('./parts/footer'); %>

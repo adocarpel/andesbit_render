@@ -10,15 +10,15 @@
   const fs = require('fs')
   const {dataUserAuthenticated} = require('./middleware/auth')
   
-  const listRoutes = require("./routes/listRoutes")
-  const usersRoutes = require("./routes/userRoutes")
-  const publicsRoutes = require("./routes/publicsRoutes")
+  const listRoutes = require("./controllers/listRC")
+  const usersRoutes = require("./controllers/userRC")
+  const publicsRoutes = require("./controllers/publicsRC")
 
   const { isAuthenticated } = require("./middleware/auth")
 
 ////////////////////////7777
 const publications = require('./models/publications')
-const path = require("path");
+/////const path = require("path");
 ////////////////////////7777
 
   const app = express()
@@ -66,13 +66,38 @@ const path = require("path");
     res.status(200).render('acerca_de', {user:user_decoded, uPresent:uPresent})
   })
   
+
   app.get('/', async(req,res)=>
   {
-    let user_decoded = await dataUserAuthenticated(req)    
+    let user = await dataUserAuthenticated(req)    
     let uPresent = true
-    if(user_decoded == null) {user_decoded = {name:"____"}; uPresent = false}
-    res.render('ini',{user:user_decoded, uPresent:uPresent})
+    let completep = '____'
+    let search = 'BUNdocsBUN>'
+
+    if(user == null) 
+    {
+      user = {name:"____"}; uPresent = false
+    }
+      ///search= req.params.s
+
+    if(search == 'BUNdocsBUN>')
+    {
+      search = ''        
+      pubs = await publications.find({rviews:"rpublic"})
+    }  
+    else
+    {
+      ////console.log("LLLLLL",search)
+      pubs = await publications.find({rviews:"rpublic", category: {$regex : search, $options: 'i'} })
+    }    
+  
+    completep = '../uploads' 
+    
+    res.render('home',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:search})
+
+    //res.render('ini',{user:user_decoded, uPresent:uPresent})
   })
+
   
   app.get('/chi',(req,res)=>
   {
@@ -103,9 +128,8 @@ const path = require("path");
     const user = req.user    
 
     let uPresent = true     
-    let pubs = {}
-    let completep = '____'
-    
+    let pubs = []///{}
+    let completep = '____'    
     if(user == null) {
       user = {name:"____"}; 
       uPresent = false
@@ -115,19 +139,90 @@ const path = require("path");
    
       pubs = await publications.find({ uidka: user._id })
 
+      ////const email = user.email
+      /*
+      let r1 = email.replace('@','a')
+      let re = /\./g
+      let r2 = r1.replace(re, 'p');
+      //completep = path.join(__dirname, './uploads' + '/' + r2)
+      */
+      completep = '../uploads'// + '/' + r2
+      
+    }    
+    
+    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:''})
+  })
+
+
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
+
+
+  app.get('/buscar/:s', isAuthenticated, async(req,res)=>
+  {    
+    const user = req.user    
+    ////OK///    console.log(user)
+
+    let uPresent = true     
+    let pubs = []////{}
+    let completep = '____'
+    let search = 'BUNdocsBUN>'
+    
+    if(user == null) //YANO VA ASER NECESARIO?
+    {
+      user = {name:"____"}; 
+      uPresent = false
+    }
+    else
+    {
+      //let search= req.query.s
+      search= req.params.s
+      ///console.log(search)
+      ////OKpubs = await publications.find({ "category": search })
+      //pubs = await publications.find({ "category": "\\"+search+"\\" })
+      //pubs = await publications.find({ "category": '"' + search + '"' })
+      ////let r='/' + search + '/i'
+      //pubs = await publications.find({category: new RegExp(r, 'i') })
+      //pubs = await publications.find({category: new RegExp(r) })
+      ///console.log(">",r);
+      if(search == 'BUNdocsBUN>')
+      {
+        search = ''        
+        pubs = await publications.find({uidka: user._id})
+      }  
+      else
+      {
+        pubs = await publications.find({uidka: user._id, category: {$regex : search, $options: 'i'} })
+      }  
+
+      /*
       const email = user.email
      
       let r1 = email.replace('@','a')
       let re = /\./g
       let r2 = r1.replace(re, 'p');
-      completep = path.join(__dirname, './uploads' + '/' + r2)
+      //completep = path.join(__dirname, './uploads' + '/' + r2)
+      completep = '../uploads' + '/' + r2      
+      */
+      completep = '../uploads'
+    }    
+    
+    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:search})
+  })
+
+  app.get('/moderar', isAuthenticated, async(req,res)=>
+  {
+    const user = req.user
+    if(user.role == "admin")
+    {
+      res.send("OK")
     }
-    
-    
-    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep})
+    else res.send("NO HAY ENTRADA A ESTO")
   })
 
   
   app.use(errorHandler)
   
+
   app.listen(port,()=>{console.log(`Servidor en la url http://127.0.0.1:${port}/`)})

@@ -9,6 +9,10 @@ const PublicationScheme = new mongoose.Schema(
         type: String,
         default: 'undefined'
     },
+    category: {
+        type: String,
+        default: 'undefined'
+    },
     
     url: {
         type: String,
@@ -23,6 +27,10 @@ const PublicationScheme = new mongoose.Schema(
     graphUrl: {
         type: String,
         default: 'undefined'
+    },
+    rviews:{
+        type: String,
+        default: 'rpublic'
     },
     uidka: { 
         type: String,

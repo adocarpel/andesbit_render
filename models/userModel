@@ -26,6 +26,10 @@ const UserScheme = new mongoose.Schema(
             type: String,
             default: 'undefined'
         },
+        last_category:{
+            type: String,
+            default: ''
+        },
         role: {
             type: String,
             default: 'user'

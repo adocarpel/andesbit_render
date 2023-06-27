@@ -15,11 +15,12 @@
         let user_ref = "_";
 
         if(u_present)
-            user_ref = "[ Usuario: <%= user.name %> ]"
+            user_ref = "[ Usuario: <%= user.name %> ]&nbsp;&nbsp; <a href=/a/usuario/salir>Salir</a>"
         else
             user_ref = "[ Usuario: " + "____" + " ]"
 
         document.getElementById("user_reference").innerHTML = user_ref
+
     }
 </script>
 

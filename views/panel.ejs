@@ -8,16 +8,28 @@
 <header>
     <%- include('./parts/up'); %>
 
-    <div class="jumbotron"> 
+    <div class="jumbotr_on"> 
+      <br>
+      
 
-      <h1>Lista de publicaciones</h1>
-    <div class="pubSC">     
-      <% var myTags = []; %>
+      <form id = "frm_search">
+        <b>Lista de publicaciones</b>&nbsp;&nbsp;&nbsp;
+        Categoría:&nbsp;<input type ="text" id="txt_search" value ="<%= last_search %>" />
+        &nbsp;<button type" = "submit"><b>&nbsp;&nbsp;>&nbsp;&nbsp;</b></button>
+      </form>
+      
+      <br>
+    <div class="pubSC">
         <% publications.map((datp)=>{ %>
-            <div class = "pubC">
+            <div class = "pubC">      
             <b><%= datp.title %></b><br>
-            <div onclick="window.open('<%= datp.url %>', '_blank')" style = "cursor:pointer;display:box;width:200px;height:160px;background-image:url(<%= pathimgs %>/<%= datp.graphUrl %>)" > 
-            <marquee direction="up" style = "height:100%"><%= datp.comments %></marquee></div>
+            <div onclick="window.open('<%= datp.url %>', '_blank')" style = "cursor:pointer;display:box;width:220px;height:160px;background-image:url(<%=pathimgs%><%=datp.graphUrl%>)">
+            <marquee direction="up" style = "height:100%"><%= datp.comments %></marquee></div>            
+            &nbsp;<a href="#" onclick="jvascript:alert('point');return false;"> + </a>
+            &nbsp;<a href="#" onclick="jvascript:alert('user');return false;"><%= user.name %></a>
+            &nbsp;<% if(datp.category!='undefined'){ %>              
+              <%= datp.category %>
+           <% } %>
           </div>
         <% }) %>        
     </div>
@@ -32,13 +44,21 @@
 
             <h3 class="title">Publicación</h3>   
             <input type ="hidden" value="<%= user._id %>" name = "user_id"/>
-            <input type ="hidden" value="<%= user.email %>" name = "email"/>
+            <input type ="hidden" value="<%= user.email %>" name = "email"/> 
+
             <div class="inputContainer">
                 <input type="text" name = "title" id = "title" class="input" placeholder="a">
                 <label for="" class="label">Título</label>
               </div>
-                  
+            
             <div class="inputContainer">
+              <input type="text" name = "category" id = "category" class="input" placeholder="a">
+              <label for="" class="label">Categoría</label>
+            </div>                  
+            
+            <div class="inputContainer">
+              <br>
+              
               <input type="text" name = "url" id = "url" class="input" placeholder="a">
               <label for="" class="label">URL o enlace</label>
             </div>    
@@ -60,6 +80,30 @@
             </div>
         
         
+
+            <fieldset>
+              <div style="width:100%; text-align:left;">
+                <b>Seleccione a quién mostrar:</b>  <br>
+              <br>
+              
+                <div>
+                  <input type="radio" id="rpublic" name="rviews" value="rpublic"
+                        checked>
+                  <label for="huey">Público</label>
+                </div>
+            
+                <div>
+                  <input type="radio" id="rprivate" name="rviews" value="rprivate">
+                  <label for="dewey">Privado</label>
+                </div>
+            
+                <div>
+                  <input type="radio" id="rcontacs" name="rviews" value="rcontacts">
+                  <label for="louie">Contactos</label>
+                </div>
+              </div>
+          </fieldset>
+
             <input type="submit" class="submitBtn" value="Enviar">
           </form>
      
@@ -78,6 +122,10 @@
 
     // { ON CHANGE: }
 
+    const form_search = document.getElementById("frm_search");
+
+    form_search.addEventListener("submit", Buscar);
+
     function showFile (e) 
     {
         const file = e.files[0]
@@ -85,6 +133,15 @@
         document.getElementById('graph_name').innerHTML = file.name;
     }
 
+    function Buscar(e){
+       e.preventDefault()
+       ///alert("asdf") 
+       text = document.getElementById("txt_search").value.trim();
+       if(text == "")text="BUNdocsBUN>"
+       location.href ="/buscar/"+text
+       return false;
+
+    }
 
 </script>
 

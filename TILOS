@@ -26,3 +26,21 @@ Debido al método de llenado, podemos recuperar una matriz de todos los objetos 
             }
         )
     }
+
+
+    div class = "pubC">      
+            <b>Traductor</b><br>
+            <div
+             onclick="window.open('https://translate.google.com/?hl=es', '_blank')"
+             style = "cursor:pointer;display:box;width:200px;height:160px;
+             background-image: url(../uploads//adocarpelagmailpcom/u.png)" > 
+            <marquee direction="up" style = "height:100%">Traductor universal...</marquee></div>
+
+
+html>
+body>
+    asdf
+    s color 2323423>
+    ni> s
+        coments
+nin>

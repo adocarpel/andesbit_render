@@ -1,4 +1,4 @@
-//const {constants} = require("../constants");
+const {constants} = require("../constants");
 const express = require("express");
 const {localdata} = require("../data/buntica");
 const router = express.Router();
@@ -12,6 +12,9 @@ const publications = require('../models/publications')
 const {dataUserAuthenticated} = require('../middleware/auth')
 const {upload} = require("../multer");
 const {upload2} = require("../multer2");
+const { isAuthenticated } = require("../middleware/auth")
+const sharp = require('sharp');
+const fs = require('fs')
 
 //SIGNIN
 router.get('/registrar', async(req, res)=>
@@ -157,7 +160,8 @@ router.get('/panel/:token', async(req, res) =>
     });
     sendToken(user, res);
 
-    res.render("panel", {user:user, uPresent: true, publications: [{title:'',url:'',graphUrl:'',comments:''}]})
+    ///res.render("panel", {user:user, uPresent: true, publications: [{title:'',url:'',graphUrl:'',comments:''}]})
+    res.render('panel', {user:user, uPresent:true, publications:[{title:'',url:'',graphUrl:'',comments:''}], pathimgs:'../uploads', last_search:''})
   }
 
   
@@ -181,8 +185,8 @@ router.get('/ingresar', async(req, s)=>
     s.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
 })
 
-/*
-router.post('/verificar', async(req, res, next)=>
+
+router.post('/entrar', async(req, res, next)=>
 {
        const { email, password } = req.body;
         
@@ -206,7 +210,7 @@ router.post('/verificar', async(req, res, next)=>
                 res.status(401);
                 throw new Error("La clave no es válida");
             }                  
-            sendToken(user, g);            
+            sendToken(user, res);            
         }
         else
         {
@@ -225,37 +229,92 @@ router.post('/verificar', async(req, res, next)=>
         }
         next(); //PARA CORS  
 })
-*/
 
-router.post('/upload_item', upload2.single("files"), async(req,res)=>
+
+
+router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,res)=>
+//router.post('/upload_item', isAuthenticated, async(req,res)=>
 {
     let img_name = req.file.originalname
     
     //uidka
         
-    const {user_id, email, title, url, comments} = await req.body
+    const {user_id, title, category, url, comments, rviews} = await req.body
 
     
-    let graphUrl = img_name
+    
     let uidka = user_id
-    let user = await dataUserAuthenticated(req)    
-
-    const pub = await publications.create(
-    {
-        title, url, comments, graphUrl, uidka
-    });
-    
+    ////////CREO QUE ESTA DEMASlet user = await dataUserAuthenticated(req)    
+    const user = req.user 
+    user.email
+    const email = user.email
      
     let r1 = email.replace('@','a')
     let re = /\./g
     let r2 = r1.replace(re, 'p');
-    let completep = path.join(__dirname, './uploads' + '/' + r2)
+     
+      //completep = path.join(__dirname, './uploads' + '/' + r2)
+      
+    let graphUrl = '/' + r2 + '/m_'+ img_name
 
-    const pubs = await publications.find({ uidka: user._id })
+    const pub = await publications.create(
+    {
+        title, category, url, comments, graphUrl, rviews, uidka
+    });
+    
 
-    res.render('panel',{user:user, uPresent:true, publications:pubs, pathimgs:completep})
+    let uPresent = true     
+    let pubs = []///{}
+    let completep = '____'
+    
+    if(user == null) 
+    {
+        user = {name:"____"}; 
+        uPresent = false
+    }
+    else
+    {   
+        pubs = await publications.find({ uidka: user._id })
+
+        /*  
+        const email = user.email
+
+        let r1 = email.replace('@','a')
+        let re = /\./g
+        let r2 = r1.replace(re, 'p');
+        */
+        
+        //completep = path.join(__dirname, './uploads' + '/' + r2)
+        completep = '../../uploads' ////+ '/' + r2
+
+        ///let spath ="/home/adolfo/andesbit_render/uploads/adocarpelagmailpcom" +'/'+ img_name
+        ///console.log("rKKKKKKKKKKK",req.file.path) .·.
+        let spath = req.file.path
+        const { filename: image } = req.file
+        await sharp(spath)
+        .resize(220, 160)
+        .toFile(path.resolve(req.file.destination,'','m_'+image))
+
+        fs.unlinkSync(req.file.path)
+    }    
+    
+    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:''})
 
 })
 
+
+// log out user
+router.get("/salir", async (req, res, next) => {
+
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+    res.status(201).json({
+        success: true,
+        message: "Log out successful!",
+    });
+})
+  
 
 module.exports = router
