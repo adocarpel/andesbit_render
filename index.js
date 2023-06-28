@@ -211,6 +211,39 @@ const publications = require('./models/publications')
     res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:search})
   })
 
+  app.get('/erase/:s', isAuthenticated, async(req,res)=>
+  {    
+    const user = req.user    
+    ////OK///    console.log(user)
+
+    let uPresent = true     
+    let pubs = []////{}
+    let completep = '____'
+    let search = ''
+    let erase = ''
+    
+    if(user == null) //YANO VA ASER NECESARIO?
+    {
+      user = {name:"____"}; 
+      uPresent = false
+    }
+    else
+    {
+      //let search= req.query.s
+      erease = req.params.s
+      console.log (erase)
+      
+      
+             
+      pubs = await publications.find({uidka: user._id})
+      
+      
+      completep = '../uploads'
+    }    
+    
+    res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:search})
+  })
+
   app.get('/moderar', isAuthenticated, async(req,res)=>
   {
     const user = req.user
