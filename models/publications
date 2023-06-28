@@ -35,6 +35,11 @@ const PublicationScheme = new mongoose.Schema(
     uidka: { 
         type: String,
         default: 'undefined' 
+    },
+    //Por ahora tiene que usarse el nombre para mostrar en el home
+    user_name:{
+        type: String,
+        default: 'undefined' 
     }
     //owner: {type: mongoose.Types.ObjectId, ref: "userModel"}    
 },

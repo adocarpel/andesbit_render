@@ -256,10 +256,11 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
       //completep = path.join(__dirname, './uploads' + '/' + r2)
       
     let graphUrl = '/' + r2 + '/m_'+ img_name
+    let user_name = user.name
 
     const pub = await publications.create(
     {
-        title, category, url, comments, graphUrl, rviews, uidka
+        title, category, url, comments, graphUrl, rviews, uidka, user_name
     });
     
 
