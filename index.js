@@ -221,7 +221,7 @@ const publications = require('./models/publications')
     let completep = '____'
     let search = ''
     let erase = ''
-    
+    /*
     if(user == null) //YANO VA ASER NECESARIO?
     {
       user = {name:"____"}; 
@@ -229,17 +229,27 @@ const publications = require('./models/publications')
     }
     else
     {
+      */
       //let search= req.query.s
-      erease = req.params.s
+      erase = req.params.s
       console.log (erase)
       
-      
+      //BORRAR PUBLICACIO
+
+      await publications.findByIdAndDelete(erase);
+      /*
+      res.status(201).json({
+        success: true,
+        message: "Publication deleted successfully!",
+      });
+      */
+      //ENDBORRAR
              
       pubs = await publications.find({uidka: user._id})
       
       
       completep = '../uploads'
-    }    
+    ///}    
     
     res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:search})
   })
