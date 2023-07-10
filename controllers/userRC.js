@@ -281,7 +281,9 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     //newItem.img.contentType = ‘image/png’;
     //newItem.save();
     let l =path.resolve(req.file.destination,'','m_'+image)
+    console.log(l)
     let hs = fs.readFileSync(l)
+
     /**img: { 
         data: Buffer, 
         contentType: String 
@@ -295,7 +297,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     
 
     //======================
-    let pubs = []///{}
+    let pubs = [];///{}
     const pub = await publications.create(
     {
         title, category, url, comments, graphUrl, rviews, uidka, user_name, img
