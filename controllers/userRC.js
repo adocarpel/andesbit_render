@@ -258,38 +258,65 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     let graphUrl = '/' + r2 + '/m_'+ img_name
     let user_name = user.name
 
+
+    //IMG===================
+
+
+
+    completep = '../../uploads' ////+ '/' + r2
+
+    let spath = req.file.path
+    const { filename: image } = req.file
+    await sharp(spath)
+    .resize(220, 160)
+    .toFile(path.resolve(req.file.destination,'','m_'+image))
+
+    fs.unlinkSync(req.file.path)
+
+
+
+    //var newItem = new Item();
+    //newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
+    //newItem.img.contentType = ‘image/png’;
+    //newItem.save();
+    let l =path.resolve(req.file.destination,'','m_'+image)
+    let hs = fs.readFileSync(l)
+    /**img: { 
+        data: Buffer, 
+        contentType: String 
+     } */
+     let img = {
+        data: hs,
+        contentType: req.file.mimetype
+      }
+
+    //let img =null
+    
+
+    //======================
+
     const pub = await publications.create(
     {
-        title, category, url, comments, graphUrl, rviews, uidka, user_name
+        title, category, url, comments, graphUrl, rviews, uidka, user_name, img
     });
     
 
     let uPresent = true     
     let pubs = []///{}
     let completep = '____'
-    
+    /*
     if(user == null) 
     {
         user = {name:"____"}; 
         uPresent = false
     }
     else
-    {   
+    {
+    */       
         pubs = await publications.find({ uidka: user._id })
-
-        /*  
-        const email = user.email
-
-        let r1 = email.replace('@','a')
-        let re = /\./g
-        let r2 = r1.replace(re, 'p');
-        */
-        
-        //completep = path.join(__dirname, './uploads' + '/' + r2)
+/*
         completep = '../../uploads' ////+ '/' + r2
 
-        ///let spath ="/home/adolfo/andesbit_render/uploads/adocarpelagmailpcom" +'/'+ img_name
-        ///console.log("rKKKKKKKKKKK",req.file.path) .·.
         let spath = req.file.path
         const { filename: image } = req.file
         await sharp(spath)
@@ -297,7 +324,8 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
         .toFile(path.resolve(req.file.destination,'','m_'+image))
 
         fs.unlinkSync(req.file.path)
-    }    
+*/        
+    ///}    
     
     res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:''})
 
