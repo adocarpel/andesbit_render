@@ -289,7 +289,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
      let img = {
         data: hs,
         contentType: req.file.mimetype
-      },
+      };
 
     //let img =null
     
