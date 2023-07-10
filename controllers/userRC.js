@@ -182,7 +182,8 @@ router.get('/ingresar', async(req, s)=>
         console.log('asha');
     };
 
-    s.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
+    //s.render('login',{d:data, global_url:process.env.URL_APP, user:user_decoded, uPresent:uPresent})
+    s.render('login',{d:data, global_url:'', user:user_decoded, uPresent:uPresent})
 })
 
 
@@ -288,7 +289,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
      let img = {
         data: hs,
         contentType: req.file.mimetype
-      }
+      },
 
     //let img =null
     
