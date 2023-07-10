@@ -63,8 +63,9 @@ const form = document.getElementById("form_login");
 form.addEventListener("submit", submitForm);
 
 async function submitForm(e){
-e.preventDefault()
 
+e.preventDefault()
+alert("asdf");
 const postUrl = "<%= global_url %>" + "/a/usuario/entrar"
 
 const email = document.getElementById("email");
