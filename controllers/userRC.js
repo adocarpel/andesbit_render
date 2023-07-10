@@ -295,7 +295,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     
 
     //======================
-
+    let pubs = []///{}
     const pub = await publications.create(
     {
         title, category, url, comments, graphUrl, rviews, uidka, user_name, img
@@ -303,7 +303,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     
 
     let uPresent = true     
-    let pubs = []///{}
+  
     let completep = '____'
     /*
     if(user == null) 
