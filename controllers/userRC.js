@@ -249,14 +249,15 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     const user = req.user 
     user.email
     const email = user.email
-     
+    /* 
     let r1 = email.replace('@','a')
     let re = /\./g
     let r2 = r1.replace(re, 'p');
-     
+    */ 
       //completep = path.join(__dirname, './uploads' + '/' + r2)
       
-    let graphUrl = '/' + r2 + '/m_'+ img_name
+    //let graphUrl = '/' + r2 + '/m_'+ img_name
+    let graphUrl = '/' + 'm_'+ img_name
     let user_name = user.name
 
 
@@ -264,7 +265,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
 
 
 
-    completep = '../../uploads' ////+ '/' + r2
+    let completep = '../../uploads' ////+ '/' + r2
 
     let spath = req.file.path
     const { filename: image } = req.file
@@ -306,7 +307,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
 
     let uPresent = true     
   
-    let completep = '____'
+    
     /*
     if(user == null) 
     {
@@ -316,8 +317,8 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     else
     {
     */       
-        pubs = await publications.find({ uidka: user._id })
-/*
+    pubs = await publications.find({ uidka: user._id })
+    /*
         completep = '../../uploads' ////+ '/' + r2
 
         let spath = req.file.path
@@ -327,7 +328,7 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
         .toFile(path.resolve(req.file.destination,'','m_'+image))
 
         fs.unlinkSync(req.file.path)
-*/        
+    */        
     ///}    
     
     res.render('panel',{user:user, uPresent:uPresent, publications:pubs, pathimgs:completep, last_search:''})

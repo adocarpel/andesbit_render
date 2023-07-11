@@ -5,7 +5,8 @@ const router = express.Router();
 ////const jwt = require("jsonwebtoken");//userDecode
 
 
-router.get('/', async(req, res)=>{
+router.get('/', async(req, res)=>
+{
     let data = localdata()
 
     //::::::::::::::::::::::::::::::::::::

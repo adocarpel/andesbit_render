@@ -18,13 +18,15 @@ const storage = multer.diskStorage(
     ///*
     destination: function (req,res,cb)
     {
+        /*
         const {email} = req.body;       
 
         let r1 = email.replace('@','a')
         let re = /\./g
         let r2 = r1.replace(re, 'p')
-        let complete_path = path.join(__dirname, './uploads' + '/' + r2)
-        
+        */
+        let complete_path = path.join(__dirname, './uploads')//+ '/' + r2)
+        /*
         if(fs.existsSync(complete_path))
         {
             //YA TIENE QUE EXISTIR SI SE SUBIÓ EL AVATAR
@@ -35,6 +37,7 @@ const storage = multer.diskStorage(
                 }else{;}
             })
         }
+        */
         cb(null, complete_path);
     },
     filename: function (req,file,cb) 
