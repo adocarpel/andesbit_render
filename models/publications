@@ -40,12 +40,11 @@ const PublicationScheme = new mongoose.Schema(
     user_name:{
         type: String,
         default: 'undefined' 
-    },
-    //owner: {type: mongoose.Types.ObjectId, ref: "userModel"}    
-    img: { 
-        data: Buffer, 
-        contentType: String 
-     }
+    },    
+    img:{ 
+        type: Buffer, // casted to MongoDB's BSON type: binData
+        required: true        
+    }    
 },
 {
     timestamps: true,

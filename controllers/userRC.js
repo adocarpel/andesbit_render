@@ -283,17 +283,18 @@ router.post('/upload_item', isAuthenticated, upload2.single("files"), async(req,
     //newItem.save();
     let l =path.resolve(req.file.destination,'','m_'+image)
     console.log(l)
-    let hs = fs.readFileSync(l)
+    ///let hs = fs.readFileSync(l)
+    let img = fs.readFileSync(l)
 
     /**img: { 
         data: Buffer, 
         contentType: String 
-     } */
+     } 
      let img = {
         data: hs,
         contentType: req.file.mimetype
       };
-
+*/
     //let img =null
     
 

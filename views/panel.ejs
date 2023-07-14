@@ -19,19 +19,29 @@
       </form>
       
       <br>
+
+      
+      <!--button onclick="r2()">Click me</button-->
+
+
     <div class="pubSC">
         <% publications.map((datp)=>{ %>
             <div class = "pubC">      
             <b><%= datp.title %></b><br>
-            <div onclick="window.open('<%= datp.url %>', '_blank')" style = "cursor:pointer;display:box;width:220px;height:160px;background-image:url(<%=pathimgs%><%=datp.graphUrl%>)">
-            <marquee direction="up" style = "height:100%"><%= datp.comments %></marquee></div>            
+            <!--div onclick="window.open('<= datp.url >', '_blank')" style = "cursor:pointer;display:box;width:220px;height:160px;background-image:url(<=pathimgs><=datp.graphUrl>)">
+            <marquee direction="up" style = "height:100%"><= datp.comments ></marquee></div-->
+            
+            <img style = "cursor:pointer" onclick="window.open('<%= datp.url %>', '_blank')" width="220px" height="200px" id="imagenP<%= datp.title %>" src ="data:image/image/png;base64,
+            <%= datp.img.toString('base64') %>" >
+            <br>
             &nbsp;<a href="#" onclick="jvascript:alert('point');return false;"> + </a>
             &nbsp;<a href="#" onclick="jvascript:alert('user');return false;"><%= user.name %></a>
             &nbsp;<% if(datp.category!='undefined'){ %>              
-              <%= datp.category %>
-           <% } %>
-           <a href = "/erase/<%= datp._id %>"> x</a>
-          </div>
+            <%= datp.category %>
+            <% } %>
+            <a href = "/erase/<%= datp._id %>"> x</a><br>
+            <%= datp.comments %>
+            </div>
         <% }) %>        
     </div>
 
@@ -119,7 +129,6 @@
 <script>
 
     let thefile = "....";
-    
 
     // { ON CHANGE: }
 
@@ -144,7 +153,37 @@
 
     }
 
-</script>
+    function c()
+    {
+      alert("c");
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "http://127.0.0.1:3000/uploads/a.png");//"http://localhost/image.jpg");
+      xhr.responseType = "blob";
+      xhr.onload = response;
+      xhr.send();
+    }
+    
+    function response(e) 
+    {
+      var urlCreator = window.URL || window.webkitURL;
+      var imageUrl = urlCreator.createObjectURL(this.response);
+      document.querySelector("#imagenPa").src = imageUrl;
+    }
+    
+    function bin2string(array)
+    {
+      var result = "";
+      for(var i = 0; i < array.length; ++i){
+        result+= (String.fromCharCode(array[i]));
+      }
+      return result;
+    }
 
+    function r2() 
+    {
+      
+    }
+    
+</script>
 
 <%- include('./parts/footer'); %>
